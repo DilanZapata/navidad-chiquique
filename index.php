@@ -260,7 +260,7 @@ function vista3() {
   <div class="rounded-xl bg-secondary-fixed/30 p-4 flex gap-3">
     <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0">${ic('family_restroom', 'text-on-secondary-fixed')}</div>
     <div><h2 class="font-display text-xl font-semibold leading-tight">¡Queremos compartir contigo y tu familia!</h2>
-    <p class="text-sm text-on-surface-variant mt-1 leading-relaxed">La invitación incluye al colaborador y a los integrantes de su <strong>núcleo familiar directo</strong>. No está destinada a amigos ni personas ajenas al hogar. Máximo ${CFG.max} acompañantes.</p></div>
+    <p class="text-sm text-on-surface-variant mt-1 leading-relaxed">La invitación incluye al colaborador y a los integrantes de su <strong>núcleo familiar directo</strong>. No está destinada a amigos ni personas ajenas al hogar.</p></div>
   </div>
   <div class="tarjeta p-5 space-y-3">
     <div><span class="text-[11px] font-semibold uppercase tracking-wider text-secondary">Grupo directo</span>

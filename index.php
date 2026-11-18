@@ -326,7 +326,7 @@ function vista4() {
   <div class="tarjeta overflow-hidden">
     <div class="h-1.5 bg-gradient-to-r from-secondary via-secondary-fixed to-primary-container"></div>
     <div class="p-5 space-y-4">
-      <div><span class="text-[11px] font-semibold uppercase tracking-wider text-secondary">fiesta de fin de año</span>
+      <div><span class="text-[11px] font-semibold uppercase tracking-wider text-secondary" >fiesta de fin de año</span>
         <h3 class="font-display text-xl font-bold text-primary">${esc(CFG.empresa)}</h3>
         <p class="text-xs font-semibold text-on-surface-variant">${esc(CFG.evento)} • ${esc(CFG.lugar)}</p></div>
       <div class="bg-surface-container-low rounded-xl p-4 flex items-center gap-3">

@@ -73,7 +73,7 @@ function cabecera(titulo, atras) {
         <span class="text-[11px] font-semibold tracking-wider uppercase text-primary-container">${esc(CFG.empresa)}</span>
         <span class="font-display text-lg font-semibold leading-tight truncate">${titulo}</span>
       </div>
-      <span class="ml-auto inline-flex items-center px-2.5 py-1 rounded-full bg-secondary-container/40 text-secondary text-[11px] font-semibold">Gala ${ANIO}</span>
+      <span class="ml-auto inline-flex items-center px-2.5 py-1 rounded-full bg-secondary-container/40 text-secondary text-[11px] font-semibold">fiesta ${ANIO}</span>
     </div>
   </header>`;
 }
@@ -196,7 +196,7 @@ function vista2() {
     </div>
   </div>
   <div class="text-center space-y-1 pt-2">
-    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary-fixed/60 text-on-secondary-fixed-variant text-xs font-semibold uppercase tracking-wide">${ic('event', 'text-sm')} Gala de fin de año</span>
+    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary-fixed/60 text-on-secondary-fixed-variant text-xs font-semibold uppercase tracking-wide">${ic('event', 'text-sm')} fiesta de fin de año</span>
     <h2 class="font-display text-2xl font-bold tracking-tight text-primary">¿Contaremos contigo en nuestra fiesta de fin de año?</h2>
     <p class="text-sm text-on-surface-variant">Tu presencia hace que nuestros logros cobren sentido.</p>
   </div>
@@ -204,7 +204,7 @@ function vista2() {
   ${op(false, 'No podré asistir 😔', 'Lamentamos que no puedas acompañarnos. Podrás confirmar y finalizar tu registro directamente, sin pasar por las siguientes fases.')}
   <div class="bg-surface-container-low rounded-xl p-4 flex gap-3 items-center">
     <div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center shrink-0">${ic('stars', 'text-secondary')}</div>
-    <p class="text-sm"><strong class="font-semibold block">Detalles de la velada</strong>${fechaLarga(CFG.fecha)}, ${horaTexto(CFG.hora)} en ${esc(CFG.lugar)}. Incluye cena especial, reconocimientos y sorpresas navideñas.</p>
+    <p class="text-sm"><strong class="font-semibold block">Detalles de la velada</strong>${fechaLarga(CFG.fecha)}, ${horaTexto(CFG.hora)} en ${esc(CFG.lugar)}. Incluye cena especial, sorpresas navideñas.</p>
   </div>
   ${cajaError()}
   ${S.asiste ? btnPrimario(`Continuar al registro familiar ${ic('arrow_forward', 'text-lg')}`, 'ir(3)') : btnPrimario(`Confirmar que no asistiré ${ic('check', 'text-lg')}`, 'guardar()')}
@@ -252,7 +252,7 @@ function vista3() {
           <button type="button" onclick="S.ninos[${i}].sexo='M'; pintar(true)" class="h-11 rounded-lg text-sm font-semibold transition ${n.sexo === 'M' ? 'bg-primary-container text-white' : 'bg-surface-container-low'}">${ic('boy', 'text-lg')} Niño</button>
           <button type="button" onclick="S.ninos[${i}].sexo='F'; pintar(true)" class="h-11 rounded-lg text-sm font-semibold transition ${n.sexo === 'F' ? 'bg-tertiary-container text-white' : 'bg-surface-container-low'}">${ic('girl', 'text-lg')} Niña</button>
         </div></div>
-      <div><div class="flex justify-between text-xs font-semibold mb-1"><span>Edad al día de la gala</span><span class="text-on-surface-variant">${n.edad === null ? 'Selecciona' : plural(n.edad, 'año', 'años')}</span></div>
+      <div><div class="flex justify-between text-xs font-semibold mb-1"><span>Edad al día de la fiesta</span><span class="text-on-surface-variant">${n.edad === null ? 'Selecciona' : plural(n.edad, 'año', 'años')}</span></div>
         <div class="flex flex-wrap gap-1.5">${Array.from({ length: L }, (_, e) => `<button type="button" onclick="S.ninos[${i}].edad=${e}; pintar(true)" class="w-9 h-9 rounded-full text-sm font-semibold transition ${n.edad === e ? 'bg-secondary text-white' : 'bg-surface-container-low'}">${e}</button>`).join('')}</div></div>
     </div>`).join('');
 
@@ -272,7 +272,7 @@ function vista3() {
   <div class="tarjeta p-5 space-y-3">
     <div><div class="flex justify-between items-center"><span class="text-[11px] font-semibold uppercase tracking-wider text-secondary">Catering especial</span><span class="px-2 py-0.5 rounded-full bg-secondary-fixed/60 text-on-secondary-fixed-variant text-[11px] font-semibold">Menores de ${L} años</span></div>
     <h3 class="font-display text-xl font-semibold leading-tight">¿Cuántos niños asistirán?</h3>
-    <p class="text-sm text-on-surface-variant mt-1">Recibirán sorpresa y menú infantil durante la gala.</p></div>
+    <p class="text-sm text-on-surface-variant mt-1">Recibirán sorpresa y menú infantil durante la fiesta.</p></div>
     ${contador(S.ninos.length, 'Niños', 'ninos', true)}
   </div>
   ${ninos}
@@ -326,7 +326,7 @@ function vista4() {
   <div class="tarjeta overflow-hidden">
     <div class="h-1.5 bg-gradient-to-r from-secondary via-secondary-fixed to-primary-container"></div>
     <div class="p-5 space-y-4">
-      <div><span class="text-[11px] font-semibold uppercase tracking-wider text-secondary">Gala de fin de año</span>
+      <div><span class="text-[11px] font-semibold uppercase tracking-wider text-secondary">fiesta de fin de año</span>
         <h3 class="font-display text-xl font-bold text-primary">${esc(CFG.empresa)}</h3>
         <p class="text-xs font-semibold text-on-surface-variant">${esc(CFG.evento)} • ${esc(CFG.lugar)}</p></div>
       <div class="bg-surface-container-low rounded-xl p-4 flex items-center gap-3">
@@ -399,7 +399,7 @@ function vista5() {
   return cabecera('Confirmación exitosa', '') + `
   <div class="no-print text-center space-y-2 pt-4">
     <div class="w-20 h-20 mx-auto rounded-full bg-primary-container flex items-center justify-center shadow-lg">${ic('verified', 'text-4xl text-secondary-fixed')}</div>
-    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary-fixed/60 text-on-secondary-fixed-variant text-xs font-semibold">${ic('celebration', 'text-sm')} Gala de fin de año</span>
+    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary-fixed/60 text-on-secondary-fixed-variant text-xs font-semibold">${ic('celebration', 'text-sm')} fiesta de fin de año</span>
     <h1 class="font-display text-3xl font-bold tracking-tight text-primary">¡Registro confirmado!</h1>
     <p class="text-on-surface-variant leading-relaxed">Gracias por confirmar tu asistencia. Nos alegra que puedas compartir este momento especial con toda la familia ${esc(CFG.empresa)}.</p>
   </div>

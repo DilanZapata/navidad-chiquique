@@ -3,11 +3,9 @@ declare(strict_types=1);
 require __DIR__ . '/lib.php';
 $c = cfg();
 $anio = substr($c['evento_fecha'], 0, 4);
-$cfgPublica = [
-    'empresa' => $c['empresa'], 'evento' => $c['evento_nombre'], 'fecha' => $c['evento_fecha'], 'hora' => $c['evento_hora'],
-    'lugar' => $c['lugar'], 'salon' => $c['salon'], 'limite' => $c['fecha_limite'], 'contacto' => $c['contacto'],
-    'max' => (int) $c['max_acompanantes'], 'edadNino' => (int) $c['edad_nino'], 'parentescos' => PARENTESCOS,
-];
+$cfgPublica = cfg_publica();
+// Que el navegador nunca muestre una copia vieja con datos del evento desactualizados
+header('Cache-Control: no-store, max-age=0');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -30,7 +28,9 @@ $cfgPublica = [
 
 <script>
 const CFG = <?= json_encode($cfgPublica, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) ?>;
-const ANIO = CFG.fecha.slice(0, 4);
+let ANIO = CFG.fecha.slice(0, 4);
+// El servidor reenvía los datos del evento en cada consulta: así un cambio hecho en el panel se ve sin recargar.
+function actualizarCFG(c) { if (c) { Object.assign(CFG, c); ANIO = CFG.fecha.slice(0, 4); } }
 const S = { paso: 1, emp: null, reg: null, editable: true, asiste: true, adultos: [], ninos: [], certifico: false, error: '', enviando: false };
 const app = document.getElementById('app');
 
@@ -91,7 +91,7 @@ function pasos(n) {
   </div>`;
 }
 
-const pie = `<p class="no-print text-center text-[11px] text-outline py-2">${ic('verified_user', 'text-sm')} ${esc(CFG.empresa)} • Exclusivo para colaboradores</p>`;
+const pieHtml = () => `<p class="no-print text-center text-[11px] text-outline py-2">${ic('verified_user', 'text-sm')} ${esc(CFG.empresa)} • Exclusivo para colaboradores</p>`;
 const cajaError = () => S.error ? `<div role="alert" class="rounded-xl bg-error-container text-on-error-container p-3 text-sm font-medium flex gap-2">${ic('error', 'text-lg')}<span>${esc(S.error)}</span></div>` : '';
 const btnPrimario = (texto, onclick, extra = '') => `<button type="button" onclick="${onclick}" ${S.enviando ? 'disabled' : ''} class="w-full h-12 bg-gradient-to-r from-primary-container via-primary to-primary-container text-on-primary text-sm font-semibold rounded-lg shadow-md active:scale-[0.99] transition flex items-center justify-center gap-2 disabled:opacity-60 ${extra}">${S.enviando ? 'Guardando…' : texto}</button>`;
 const btnSecundario = (texto, onclick) => `<button type="button" onclick="${onclick}" class="w-full h-12 bg-surface-container text-primary text-sm font-semibold rounded-lg active:scale-[0.99] transition flex items-center justify-center gap-2">${texto}</button>`;
@@ -150,6 +150,7 @@ async function consultar() {
   document.getElementById('cedula').value = cedula;
   try {
     const r = await api('consultar', { cedula });
+    actualizarCFG(r.config);
     S.emp = r.empleado; S.reg = r.registro; S.editable = r.editable;
     cargarDesdeRegistro();
     S.paso = S.reg ? 5 : 2;
@@ -209,7 +210,7 @@ function vista2() {
   ${cajaError()}
   ${S.asiste ? btnPrimario(`Continuar al registro familiar ${ic('arrow_forward', 'text-lg')}`, 'ir(3)') : btnPrimario(`Confirmar que no asistiré ${ic('check', 'text-lg')}`, 'guardar()')}
   ${btnSecundario(`${ic('arrow_back', 'text-lg')} Cambiar cédula`, 'cambiarCedula()')}
-  ${pie}`;
+  ${pieHtml()}`;
 }
 
 /* ---------- Paso 3: núcleo familiar ---------- */
@@ -284,7 +285,7 @@ function vista3() {
   ${cajaError()}
   ${btnPrimario(`Revisar resumen ${ic('arrow_forward', 'text-lg')}`, 'revisar()')}
   ${btnSecundario(`${ic('arrow_back', 'text-lg')} Volver`, 'ir(2)')}
-  ${pie}`;
+  ${pieHtml()}`;
 }
 
 function agregar(lista) {
@@ -354,7 +355,7 @@ function vista4() {
   ${btnPrimario(`${ic('verified')} CONFIRMAR MI REGISTRO`, 'confirmar()')}
   ${btnSecundario(`${ic('arrow_back', 'text-lg')} Modificar datos familiares`, 'ir(3)')}
   <div class="rounded-xl bg-secondary-fixed/30 p-4 flex gap-3 text-sm">${ic('info', 'text-secondary', true)}<p><strong class="block text-on-secondary-fixed-variant">Plazo máximo de cambios</strong>Tienes plazo hasta el <strong>${fechaLarga(CFG.limite).toLowerCase()}</strong> para realizar modificaciones.</p></div>
-  ${pie}`;
+  ${pieHtml()}`;
 }
 
 function confirmar() {
@@ -370,6 +371,7 @@ async function guardar() {
       adultos: S.asiste ? S.adultos.map(a => ({ ...a, nombre: a.nombre.trim(), edad: Number(a.edad) })) : [],
       ninos: S.asiste ? S.ninos.map(n => ({ ...n, nombre: n.nombre.trim() })) : [],
     });
+    actualizarCFG(r.config);
     S.reg = r.registro; S.editable = r.editable; S.paso = 5;
   } catch (e) { S.error = e.message; }
   S.enviando = false; pintar(!!S.error);
@@ -391,7 +393,7 @@ function vista5() {
       <p class="text-on-surface-variant leading-relaxed">${esc(primerNombre(S.emp.nombre))}, registramos que <strong>no podrás asistir</strong> a la ${esc(CFG.evento)}. ¡Te vamos a extrañar!</p>
     </div>
     <div class="tarjeta p-4 text-sm flex gap-3">${ic('info', 'text-secondary', true)}<p>Si cambias de opinión, puedes modificar tu respuesta hasta el <strong>${fechaLarga(CFG.limite).toLowerCase()}</strong>.</p></div>
-    ${modificar}${salir}${pie}`;
+    ${modificar}${salir}${pieHtml()}`;
   }
 
   const nombresNinos = r.ninos.map(n => n.nombre).filter(Boolean).join(', ');
@@ -433,7 +435,7 @@ function vista5() {
     ${btnSecundario(`${ic('event', 'text-lg')} Añadir al calendario (Google / Apple)`, 'descargarCalendario()')}
     ${modificar}
   </div>
-  ${salir}${pie}`;
+  ${salir}${pieHtml()}`;
 }
 
 function descargarCalendario() {

@@ -90,6 +90,17 @@ function cfg_guardar(array $valores): void
     }
 }
 
+/** Datos del evento que ve el empleado en el registro público. */
+function cfg_publica(): array
+{
+    $c = cfg();
+    return [
+        'empresa' => $c['empresa'], 'evento' => $c['evento_nombre'], 'fecha' => $c['evento_fecha'], 'hora' => $c['evento_hora'],
+        'lugar' => $c['lugar'], 'salon' => $c['salon'], 'limite' => $c['fecha_limite'], 'contacto' => $c['contacto'],
+        'max' => (int) $c['max_acompanantes'], 'edadNino' => (int) $c['edad_nino'], 'parentescos' => PARENTESCOS,
+    ];
+}
+
 /** ¿Se pueden crear o modificar registros hoy? */
 function registro_editable(): bool
 {

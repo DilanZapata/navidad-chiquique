@@ -49,7 +49,7 @@ try {
                 fallo('El plazo de registro ya cerró. Para cualquier novedad comunícate con ' . $cfg['contacto'] . '.', 403);
             }
             unset($emp['id']);
-            responder(['empleado' => $emp, 'registro' => $registro, 'editable' => registro_editable()]);
+            responder(['empleado' => $emp, 'registro' => $registro, 'editable' => registro_editable(), 'config' => cfg_publica()]);
         }
 
         case 'guardar': {
@@ -105,7 +105,7 @@ try {
             foreach ($personas as $p) $ins->execute([$regId, ...$p]);
             $pdo->commit();
 
-            responder(['registro' => registro_de($empId), 'editable' => true]);
+            responder(['registro' => registro_de($empId), 'editable' => true, 'config' => cfg_publica()]);
         }
 
         case 'salir':

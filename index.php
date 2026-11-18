@@ -272,7 +272,7 @@ function vista3() {
   <div class="tarjeta p-5 space-y-3">
     <div><div class="flex justify-between items-center"><span class="text-[11px] font-semibold uppercase tracking-wider text-secondary">Catering especial</span><span class="px-2 py-0.5 rounded-full bg-secondary-fixed/60 text-on-secondary-fixed-variant text-[11px] font-semibold">Menores de ${L} años</span></div>
     <h3 class="font-display text-xl font-semibold leading-tight">¿Cuántos niños asistirán?</h3>
-    <p class="text-sm text-on-surface-variant mt-1">Recibirán sorpresa y menú infantil durante la fiesta.</p></div>
+    <p class="text-sm text-on-surface-variant mt-1">Recibirán sorpresa durante la fiesta.</p></div>
     ${contador(S.ninos.length, 'Niños', 'ninos', true)}
   </div>
   ${ninos}
@@ -341,7 +341,7 @@ function vista4() {
       </div>
       <div class="bg-surface-container-low rounded-lg px-3 py-2 text-sm space-y-2">
         <div class="flex justify-between"><span>${ic('child_care', 'text-base')} Niños (menores de ${CFG.edadNino})</span><strong>${S.ninos.length}</strong></div>
-        ${S.ninos.map(n => `<div class="bg-white rounded-lg px-3 py-2 flex justify-between items-center"><div><p class="font-semibold">${etiquetaNino(n)}</p><p class="text-xs text-secondary font-semibold">Menú infantil + obsequio navideño</p></div>${ic('celebration', 'text-secondary')}</div>`).join('')}
+        ${S.ninos.map(n => `<div class="bg-white rounded-lg px-3 py-2 flex justify-between items-center"><div><p class="font-semibold">${etiquetaNino(n)}</p><p class="text-xs text-secondary font-semibold"></p></div>${ic('celebration', 'text-secondary')}</div>`).join('')}
       </div>
       <div class="bg-primary text-white rounded-xl p-4 flex justify-between items-center"><span class="font-display font-bold uppercase tracking-wide">${ic('confirmation_number')} Total asistentes</span><span class="font-display text-2xl font-bold text-secondary-fixed">${plural(total(), 'persona', 'personas')}</span></div>
       <label class="bg-surface-container-low rounded-lg p-3 flex gap-3 text-sm cursor-pointer">
